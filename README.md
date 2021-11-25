@@ -1,4 +1,4 @@
-# postcss-remix
+# remix-postcss
 
 Use your PostCSS Config in Remix
 
@@ -19,6 +19,10 @@ yarn add -D postcss
 ---
 
 # Usage
+
+This Package will read out all PostCSS-Config file types from your Remix-App Root dirctory.
+
+! Currently only `plugins` are supported !
 
 This Package is a bit special in how it works, but it's easy to setup
 
