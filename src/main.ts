@@ -11,8 +11,10 @@ export async function remixPostcss(context: EntryContext) {
   // TODO: This is a bit Hacky, we could also just loop over the "public/build/_assets"-Folder but sometimes there are Files multiple times in it with another Hash
   const { routeModules } = context;
 
+  const cwd = process.cwd();
+
   const { plugins } = await postcssrc({
-    cwd: process.cwd(),
+    cwd,
   });
   const processor = postcss(plugins);
 
@@ -27,18 +29,23 @@ export async function remixPostcss(context: EntryContext) {
     links.push(...module.links());
   });
 
+  const processFile = async (filePath: string) => {
+    const fileBuffer = await fs.readFile(filePath);
+    const file = fileBuffer.toString();
+
+    const { css } = await processor.process(file, { from: filePath, to: filePath });
+
+    await fs.writeFile(filePath, css);
+  };
+
   for (let link of links) {
     // Make sure the Type is HtmlLinkDescriptor and not PageLinkDescriptor
-    if ('page' in link || !link.href) return;
+    if ('page' in link || !link.href) continue;
 
     try {
-      const filePath = `${process.cwd()}/public/${link.href}`;
-      const fileBuffer = await fs.readFile(filePath);
-      const file = fileBuffer.toString();
-
-      const { css } = await processor.process(file, { from: filePath, to: filePath });
-
-      await fs.writeFile(filePath, css);
+      // Process all files in the build/ and public/build directories
+      await processFile(`${cwd}/public/${link.href}`);
+      await processFile(`${cwd}/${link.href}`);
     } catch (error) {
       throw new Error(error.message);
     }
