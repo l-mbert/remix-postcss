@@ -1,6 +1,6 @@
 {
   "name": "remix-postcss",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Use your PostCSS Config in Remix",
   "main": "src/main.ts",
   "repository": "https://github.com/l-mbert/remix-postcss",
@@ -11,13 +11,15 @@
     "build": "tsup-node"
   },
   "dependencies": {
-    "@remix-run/node": "^1.0.4",
+    "postcss-discard-duplicates": "^5.0.1",
     "postcss-load-config": "^3.1.0"
   },
   "peerDependencies": {
+    "remix": ">=1",
     "postcss": ">=8"
   },
   "devDependencies": {
+    "@remix-run/node": "^1.0.5",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.3.0",

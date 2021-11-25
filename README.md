@@ -1,6 +1,6 @@
 # remix-postcss
 
-Use your PostCSS Config in Remix
+Use your [PostCSS](https://postcss.org/) Config in [Remix](https://remix.run)
 
 ---
 
@@ -18,11 +18,17 @@ yarn add -D postcss
 
 ---
 
-# Usage
+## Informations
 
-This Package will read out all PostCSS-Config file types from your Remix-App Root dirctory.
+This Package will read out all PostCSS-Config file types from your Remix-App Root dirctory. (!!! Currently only `plugins` are used !!!)
 
-! Currently only `plugins` are supported !
+Since we're reprocessing the Files again and again there will be duplicate rules because they have been reprocessed. Due to this we've added [postcss-discard-duplicates](https://www.npmjs.com/package/postcss-discard-duplicates) as a default Plugin. If this conflicts with your PostCSS-Config read further down about configuring remix-postcss.
+
+---
+
+## Usage
+
+### - Global processing
 
 This Package is a bit special in how it works, but it's easy to setup
 
@@ -41,6 +47,17 @@ export default function handleRequest(
 ) {
   remixPostcss(remixContext);
   ...
+```
+
+### - Options
+
+```ts
+remixPostcss(remixContext, {
+  /**
+   * Disables the "postcss-discard-duplicates" PostCSS Plugin
+   */
+  disableDiscardDuplicates: false, // default: false
+});
 ```
 
 And you're finished!

@@ -59,21 +59,21 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@remix-run/node@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@remix-run/node/-/node-1.0.4.tgz#96d77d4a8bafd0e2dac9cb88b96fd9872720f7cd"
-  integrity sha512-19fo8XQO1XqhCeHXP5Pp2n2b3XR2WqmfJqsAvlik/iAiQhH0ztOZwWFkB0KpX5wUMAXR1fdoZG+VXxeA2pYKxQ==
+"@remix-run/node@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@remix-run/node/-/node-1.0.5.tgz#f8cee508ca899c52fc5e0522312fb4f7a51e8055"
+  integrity sha512-VdUCp5JabILx1VLXdI/5esVMA7+il3A98FQHIAFqpkrrml3/wYyrg65aXYTLffUY8LSABDF9Yz2TfxcWfz7lfQ==
   dependencies:
-    "@remix-run/server-runtime" "1.0.4"
+    "@remix-run/server-runtime" "1.0.5"
     "@types/node-fetch" "^2.5.12"
     cookie-signature "^1.1.0"
     node-fetch "^2.6.1"
     source-map "^0.7.3"
 
-"@remix-run/server-runtime@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@remix-run/server-runtime/-/server-runtime-1.0.4.tgz#a5865ee1167d6fa9e2177d5f6685efa30d25e002"
-  integrity sha512-dZL3qIuvd8ngT0L1ShNJY2Fz/J3iRYcMOl9FdskBGYVVwTMlHMTDqqilBJGlmuxd2/nUkPxLfpos0ZkQGr1tXg==
+"@remix-run/server-runtime@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@remix-run/server-runtime/-/server-runtime-1.0.5.tgz#637c75a0f6bacf212ee2684f38151fa4d11069ad"
+  integrity sha512-pd+o9quOACotRDxAgDv/31K+pMXM/Vzx8EkK3zKQ+9UvVHjw+Tdy4BTf5H4wCxAd3lEZ2fr5sH97U8uGbBg8AQ==
   dependencies:
     "@types/cookie" "^0.4.0"
     cookie "^0.4.1"
@@ -1118,6 +1118,11 @@ pirates@^4.0.1:
   integrity sha512-WuNqLTbMI3tmfef2TKxlQmAiLHKtFhlsCZnPIpuv2Ow0RDVO8lfy1Opf4NUzlMXLjPl+Men7AuVdX6TA+s+uGA==
   dependencies:
     node-modules-regexp "^1.0.0"
+
+postcss-discard-duplicates@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-discard-duplicates/-/postcss-discard-duplicates-5.0.1.tgz#68f7cc6458fe6bab2e46c9f55ae52869f680e66d"
+  integrity sha512-svx747PWHKOGpAXXQkCc4k/DsWo+6bc5LsVrAsw+OU+Ibi7klFZCyX54gjYzX4TH+f2uzXjRviLARxkMurA2bA==
 
 postcss-load-config@^3.0.1, postcss-load-config@^3.1.0:
   version "3.1.0"

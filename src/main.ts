@@ -2,12 +2,24 @@ import type { EntryContext, LinkDescriptor } from '@remix-run/server-runtime';
 import fs from 'fs/promises';
 import postcss from 'postcss';
 import postcssrc from 'postcss-load-config';
+import postcssDiscardDuplicatesPlugin from 'postcss-discard-duplicates';
+
+export type RemixPostcssOptions = {
+  /**
+   * Disables the "postcss-discard-duplicates" PostCSS Plugin
+   */
+  disableDiscardDuplicates: boolean;
+};
 
 /**
  * remixPostcss will look at all `links` currently loaded by Remix and will overwrite them in the public-Directory
  * @param context The Remix Config-Object
  */
-export async function remixPostcss(context: EntryContext) {
+export async function remixPostcss(
+  context: EntryContext,
+  options: RemixPostcssOptions = { disableDiscardDuplicates: false },
+) {
+  if (!context) return;
   // TODO: This is a bit Hacky, we could also just loop over the "public/build/_assets"-Folder but sometimes there are Files multiple times in it with another Hash
   const { routeModules } = context;
 
@@ -16,6 +28,11 @@ export async function remixPostcss(context: EntryContext) {
   const { plugins } = await postcssrc({
     cwd,
   });
+
+  if (options && !options.disableDiscardDuplicates) {
+    plugins.push(postcssDiscardDuplicatesPlugin());
+  }
+
   const processor = postcss(plugins);
 
   // Get all Link-Modules from the Remix-Context
