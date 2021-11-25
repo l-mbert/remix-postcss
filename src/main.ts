@@ -1,50 +1,46 @@
-import type {
-  EntryContext,
-  HtmlLinkDescriptor,
-} from "@remix-run/server-runtime";
-import fs from "fs";
-import postcss from "postcss";
-import postcssrc from "postcss-load-config";
+import type { EntryContext, LinkDescriptor } from '@remix-run/server-runtime';
+import fs from 'fs/promises';
+import postcss from 'postcss';
+import postcssrc from 'postcss-load-config';
 
-export function remixPostcss(context: EntryContext) {
+/**
+ * remixPostcss will look at all `links` currently loaded by Remix and will overwrite them in the public-Directory
+ * @param context The Remix Config-Object
+ */
+export async function remixPostcss(context: EntryContext) {
+  // TODO: This is a bit Hacky, we could also just loop over the "public/build/_assets"-Folder but sometimes there are Files multiple times in it with another Hash
   const { routeModules } = context;
 
-  postcssrc({
+  const { plugins } = await postcssrc({
     cwd: process.cwd(),
-  }).then(({ plugins }) => {
-    const processor = postcss(plugins);
-
-    Object.keys(routeModules).forEach((moduleKey) => {
-      const module = routeModules[moduleKey];
-      if (!module.links) return;
-      const links = module.links();
-
-      links.forEach((link: HtmlLinkDescriptor) => {
-        if (!link.href) return;
-        const filePath = `${process.cwd()}/public/${link.href}`;
-
-        fs.readFile(filePath, (err, data) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-
-          const untransformedCss = data.toString();
-
-          processor
-            .process(untransformedCss, {
-              from: filePath,
-              to: filePath,
-            })
-            .then(({ css }) => {
-              fs.writeFile(filePath, css, (err) => {
-                if (err) {
-                  console.error(err);
-                }
-              });
-            });
-        });
-      });
-    });
   });
+  const processor = postcss(plugins);
+
+  // Get all Link-Modules from the Remix-Context
+  const links: LinkDescriptor[] = [];
+  Object.keys(routeModules).forEach((moduleKey) => {
+    if (!routeModules.hasOwnProperty(moduleKey)) return;
+
+    const module = routeModules[moduleKey];
+    if (!module.links) return;
+
+    links.push(...module.links());
+  });
+
+  for (let link of links) {
+    // Make sure the Type is HtmlLinkDescriptor and not PageLinkDescriptor
+    if ('page' in link || !link.href) return;
+
+    try {
+      const filePath = `${process.cwd()}/public/${link.href}`;
+      const fileBuffer = await fs.readFile(filePath);
+      const file = fileBuffer.toString();
+
+      const { css } = await processor.process(file, { from: filePath, to: filePath });
+
+      await fs.writeFile(filePath, css);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }

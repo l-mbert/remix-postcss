@@ -1,6 +1,6 @@
 {
   "name": "remix-postcss",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Use your PostCSS Config in Remix",
   "main": "src/main.ts",
   "repository": "https://github.com/github:l-mbert/remix-postcss",
