@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "description": "Use your PostCSS Config in Remix",
   "main": "src/main.ts",
-  "repository": "https://github.com/github:l-mbert/remix-postcss",
+  "repository": "https://github.com/l-mbert/remix-postcss",
   "author": "Lambert Weller",
   "license": "MIT",
   "private": false,
